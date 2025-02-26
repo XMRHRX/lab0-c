@@ -24,8 +24,12 @@ struct list_head *q_new()
 /* Free all storage used by queue */
 void q_free(struct list_head *head)
 {
-    while (head->next != head) {
+    if (!head)
+        return;
+    while (head->next && head->next != head) {
         element_t *e = container_of(head->next, element_t, list);
+        head->next = head->next->next;
+        free(e->value);
         free(e);
     }
     free(head);
