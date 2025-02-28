@@ -32,8 +32,7 @@ void q_free(struct list_head *head)
 {
     if (!head)
         return;
-    // while (head->next && head->next != head) {
-    while (head->next) {
+    while (head->next && head->next != head) {
         element_t *e = container_of(head->next, element_t, list);
         free(e->value);
         free(e);
