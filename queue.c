@@ -117,7 +117,13 @@ element_t *q_remove_tail(struct list_head *head, char *sp, size_t bufsize)
 /* Return number of elements in queue */
 int q_size(struct list_head *head)
 {
-    return -1;
+    struct list_head *current = head;
+    int count = 0;
+    while (current && current != head) {
+        current = current->next;
+        count++;
+    }
+    return count;
 }
 
 /* Delete the middle node in queue */
