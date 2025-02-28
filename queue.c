@@ -49,7 +49,7 @@ bool q_insert_head(struct list_head *head, char *s)
     element_t *e = malloc(sizeof(element_t));
     if (!e)
         return false;
-    int length = strlen(s);
+    int length = strlen(s) + 1;
     e->value = malloc(sizeof(char) * length);
     if (!e->value) {
         free(e);
