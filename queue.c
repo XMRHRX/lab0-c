@@ -1,8 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "list.h"
 
 #include "queue.h"
+
+#define MAXSTRING 1024
+#define STRINGPAD MAXSTRING
+
+static int string_length = MAXSTRING;
 
 /* Notice: sometimes, Cppcheck would find the potential NULL pointer bugs,
  * but some of them cannot occur. You can suppress them by adding the
@@ -13,15 +19,47 @@
 /* Create an empty queue */
 struct list_head *q_new()
 {
-    return NULL;
+    struct list_head *head = malloc(sizeof(struct list_head));
+    if (!head) {
+        return NULL;
+    }
+    head->next = head->prev = head;
+    return head;
 }
 
 /* Free all storage used by queue */
-void q_free(struct list_head *head) {}
+void q_free(struct list_head *head)
+{
+    if (!head)
+        return;
+    // while (head->next && head->next != head) {
+    while (head->next) {
+        element_t *e = container_of(head->next, element_t, list);
+        free(e->value);
+        free(e);
+        head->next = head->next->next;
+    }
+    free(head);
+}
 
 /* Insert an element at head of queue */
 bool q_insert_head(struct list_head *head, char *s)
 {
+    if (!head)
+        return false;
+    element_t *e = malloc(sizeof(element_t));
+    if (!e)
+        return false;
+    char *news = (char *) malloc(3 * sizeof(char));
+    if (news) {
+        while (1)
+            ;
+        free(e);
+        return false;
+    }
+    e->value = news;
+    strncpy(e->value, s, string_length);
+    list_add(&e->list, head);
     return true;
 }
 
