@@ -5,10 +5,10 @@
 
 #include "queue.h"
 
-#define MAXSTRING 1024
-#define STRINGPAD MAXSTRING
+// #define MAXSTRING 1024
+// #define STRINGPAD MAXSTRING
 
-static int string_length = MAXSTRING;
+// static int string_length = MAXSTRING;
 
 /* Notice: sometimes, Cppcheck would find the potential NULL pointer bugs,
  * but some of them cannot occur. You can suppress them by adding the
@@ -50,15 +50,13 @@ bool q_insert_head(struct list_head *head, char *s)
     element_t *e = malloc(sizeof(element_t));
     if (!e)
         return false;
-    char *news = (char *) malloc(3 * sizeof(char));
-    if (news) {
-        while (1)
-            ;
+    int length = strlen(s);
+    e->value = malloc(sizeof(char) * length);
+    if (!e->value) {
         free(e);
         return false;
     }
-    e->value = news;
-    strncpy(e->value, s, string_length);
+    strncpy(e->value, s, length);
     list_add(&e->list, head);
     return true;
 }
